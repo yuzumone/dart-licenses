@@ -1,0 +1,20 @@
+name: dart_licenses
+description: Display the licenses used by packages and its dependencies.
+version: 1.0.0
+repository: https://github.com/yuzumone/dart-licenses
+
+environment:
+  sdk: ^3.0.7
+
+dependencies:
+  args: ^2.4.2
+  yaml: ^3.1.2
+  http: ^1.1.0
+  html: ^0.15.4
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
+
+executables:
+  dart-licenses:
