@@ -7,7 +7,10 @@ import 'package:yaml/yaml.dart';
 
 void main(List<String> arguments) async {
   final parser = ArgParser();
-  parser.addOption('path', abbr: 'p', defaultsTo: './pubspec.lock', help: 'Set the path pubspec.lock');
+  parser.addOption('path',
+      abbr: 'p',
+      defaultsTo: './pubspec.lock',
+      help: 'Set the path pubspec.lock');
   parser.addFlag('help', abbr: 'h', help: 'Display this message',
       callback: (help) {
     if (help) {
@@ -19,24 +22,26 @@ void main(List<String> arguments) async {
   final path = result['path'];
 
   final lock = await _getYaml(path);
+  final outputs = [];
   for (var p in lock['packages'].values) {
     var name = p['description']['name'];
     var url = p['description']['url'];
     var doc = await _getDocument(name, url);
 
     if (doc == null) {
-      print('$name, unknown');
+      outputs.add('$name, unknown');
       continue;
     }
     for (var e
         in doc.getElementsByTagName('aside').first.querySelectorAll('h3')) {
       if (e.text == 'License') {
         var license = e.nextElementSibling?.text.replaceAll(' (LICENSE)', '');
-        print('$name, $license');
+        outputs.add('$name, $license');
       }
     }
   }
 
+  print(outputs.join('\n'));
   exit(0);
 }
 
